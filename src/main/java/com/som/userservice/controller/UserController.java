@@ -1,6 +1,7 @@
 package com.som.userservice.controller;
 
 import com.som.userservice.dto.LoginRequest;
+import com.som.userservice.dto.LoginResponse;
 import com.som.userservice.dto.RegisterRequest;
 import com.som.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -24,12 +25,11 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(
+    public LoginResponse login(
             @RequestBody LoginRequest request) {
 
-        return "INVALID CREDENTIALS";
-//        return userService.login(
-//                request
-//        );
+        return userService.login(
+                request
+        );
     }
 }

@@ -1,10 +1,12 @@
 package com.som.userservice.service;
 
 import com.som.userservice.dto.LoginRequest;
+import com.som.userservice.dto.LoginResponse;
 import com.som.userservice.dto.RegisterRequest;
 import com.som.userservice.entity.User;
 import com.som.userservice.exception.EmailAlreadyExistsException;
 import com.som.userservice.repository.UserRepository;
+import com.som.userservice.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ public class UserService {
 
     private final PasswordEncoder
             passwordEncoder;
+
+    private final JwtService jwtService;
 
     public String register(
             RegisterRequest request) {
@@ -55,7 +59,7 @@ public class UserService {
         return "User Registered Successfully";
     }
 
-    public String login(
+    public LoginResponse     login(
             LoginRequest request) {
 
         User user =
@@ -79,7 +83,14 @@ public class UserService {
             );
         }
 
-        return "Login Successful";
+        String token =
+                jwtService.generateToken(
+                        user.getEmail()
+                );
+
+        return LoginResponse.builder()
+                .token(token)
+                .build();
     }
 
 
