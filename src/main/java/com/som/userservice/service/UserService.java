@@ -50,6 +50,9 @@ public class UserService {
                                     request.getPassword()
                         )
                 )
+                        .role(
+                                request.getRole()
+                        )
                         .build();
 
         userRepository.save(
