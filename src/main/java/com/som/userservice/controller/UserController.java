@@ -5,6 +5,7 @@ import com.som.userservice.dto.LoginResponse;
 import com.som.userservice.dto.RegisterRequest;
 import com.som.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -31,5 +32,18 @@ public class UserController {
         return userService.login(
                 request
         );
+    }
+
+    @GetMapping("/me")
+    public String me(
+            Authentication authentication) {
+
+        return authentication.getName();
+    }
+
+    @GetMapping("/admin")
+    public String admin() {
+
+        return "Admin Access Granted";
     }
 }

@@ -39,7 +39,9 @@ public class CustomUserDetailsService
                         user.getPassword()
                 )
                 .authorities(
-                        user.getRole()
+                        user.getRole() == null
+                                ? "USER"
+                                : user.getRole()
                 )
                 .build();
     }
