@@ -46,4 +46,10 @@ public class UserController {
 
         return "Admin Access Granted";
     }
+
+    @GetMapping("/test")
+    public String test() {
+
+        return "Hello from User Service";
+    }
 }
