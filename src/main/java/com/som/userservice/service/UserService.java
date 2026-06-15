@@ -5,6 +5,7 @@ import com.som.userservice.entity.User;
 import com.som.userservice.exception.EmailAlreadyExistsException;
 import com.som.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +14,9 @@ public class UserService {
 
     private final UserRepository
             userRepository;
+
+    private final PasswordEncoder
+            passwordEncoder;
 
     public String register(
             RegisterRequest request) {
@@ -37,8 +41,10 @@ public class UserService {
                                 request.getEmail()
                         )
                         .password(
-                                request.getPassword()
+                                passwordEncoder.encode(
+                                    request.getPassword()
                         )
+                )
                         .build();
 
         userRepository.save(
