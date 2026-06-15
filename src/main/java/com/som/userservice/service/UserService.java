@@ -1,5 +1,6 @@
 package com.som.userservice.service;
 
+import com.som.userservice.dto.LoginRequest;
 import com.som.userservice.dto.RegisterRequest;
 import com.som.userservice.entity.User;
 import com.som.userservice.exception.EmailAlreadyExistsException;
@@ -52,6 +53,33 @@ public class UserService {
         );
 
         return "User Registered Successfully";
+    }
+
+    public String login(
+            LoginRequest request) {
+
+        User user =
+                userRepository
+                        .findByEmail(
+                                request.getEmail()
+                        )
+                        .orElseThrow(
+                                () -> new RuntimeException(
+                                        "User not found"
+                                )
+                        );
+
+        if (!passwordEncoder.matches(
+                request.getPassword(),
+                user.getPassword()
+        )) {
+
+            throw new RuntimeException(
+                    "Invalid credentials"
+            );
+        }
+
+        return "Login Successful";
     }
 
 
